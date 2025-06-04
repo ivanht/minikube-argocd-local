@@ -1,3 +1,17 @@
+# Table of Contents
+- [Install instructions](#install-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Quick Start](#quick-start)
+- [How to use ArgoCD for deployments, promotions, and rollbacks](#how-to-use-argocd-for-deployments-promotions-and-rollbacks)
+  - [Deployment Flow](#deployment-flow)
+  - [Deployments with ArgoCD](#deployments-with-argocd)
+    - [Initial Deployment](#initial-deployment)
+    - [Making Changes](#making-changes)
+    - [Promoting to Production](#promoting-to-production)
+- [Monitoring Metrics and Thresholds](#monitoring-metrics-and-thresholds)
+  - [Infrastructure Metrics Overview](#infrastructure-metrics-overview)
+
+
 # Install instructions
 ## Prerequisites
 - macOS (this setup is currently only working on macOS)
