@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-production
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ivanht/minikube-argocd-local.git
+    targetRevision: HEAD
+    path: gitops/nginx
+    helm:
+      valueFiles:
+        - values.yaml
+      version: "v3"
+    chart: nginx
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 20.0.5
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-production
+  syncPolicy:
+    syncOptions:
+      - ManualSync=true
