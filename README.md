@@ -19,10 +19,10 @@ graph LR
     A[Git Repository] -->|Changes| B[ArgoCD]
     B -->|Auto Sync| C[Staging]
     C -->|Manual Approval| D[Production]
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bfb,stroke:#333,stroke-width:2px
-    style D fill:#fbb,stroke:#333,stroke-width:2px
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style B fill:#bbf,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style C fill:#bfb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style D fill:#fbb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
 ```
 
 ## Deployments with ArgoCD
@@ -50,6 +50,9 @@ pie title Infrastructure Metrics Distribution
     "CPU Usage" : 33
     "Memory Usage" : 33
     "Disk Space" : 34
+    style CPU Usage fill:#f9f,color:white,font-weight:bold
+    style Memory Usage fill:#bbf,color:white,font-weight:bold
+    style Disk Space fill:#bfb,color:white,font-weight:bold
 ```
 
 ### CPU Usage
@@ -73,10 +76,10 @@ graph TD
     A[Application Metrics] --> B[Response Time]
     A --> C[Error Rate]
     A --> D[Request Rate]
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bfb,stroke:#333,stroke-width:2px
-    style D fill:#fbb,stroke:#333,stroke-width:2px
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style B fill:#bbf,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style C fill:#bfb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style D fill:#fbb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
 ```
 
 ### Response Time
@@ -100,10 +103,10 @@ graph LR
     A[Nginx Metrics] --> B[Active Connections]
     A --> C[SSL Certificate]
     A --> D[Worker Processes]
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bfb,stroke:#333,stroke-width:2px
-    style D fill:#fbb,stroke:#333,stroke-width:2px
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style B fill:#bbf,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style C fill:#bfb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style D fill:#fbb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
 ```
 
 ### Active Connections
