@@ -46,13 +46,11 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 
 ## Infrastructure Metrics Overview
 ```mermaid
-pie title Infrastructure Metrics Distribution
+pie showData
+    title Infrastructure Metrics Distribution
     "CPU Usage" : 33
     "Memory Usage" : 33
     "Disk Space" : 34
-    style CPU Usage fill:#f9f,color:white,font-weight:bold
-    style Memory Usage fill:#bbf,color:white,font-weight:bold
-    style Disk Space fill:#fbb,color:white,font-weight:bold
 ```
 
 ### CPU Usage
