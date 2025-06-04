@@ -1,17 +1,30 @@
 # Install instructions
 ## Prerequisites
-- macOS (this setup is currently only works on macOS)
+- macOS (this setup is currently only working on macOS)
 - Internet connection
 - GitHub account
 
 ## Quick Start
 Run this single command to install and configure everything:
 
-```
+```bash
 ./install.sh
 ```
 
-#  How to use ArgoCD for deployments, promotions, and rollbacks.
+# How to use ArgoCD for deployments, promotions, and rollbacks
+
+## Deployment Flow
+```mermaid
+graph LR
+    A[Git Repository] -->|Changes| B[ArgoCD]
+    B -->|Auto Sync| C[Staging]
+    C -->|Manual Approval| D[Production]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#fbb,stroke:#333,stroke-width:2px
+```
+
 ## Deployments with ArgoCD
 ArgoCD automatically syncs your Git repository with your Kubernetes clusters. Here's how to manage deployments:
 
@@ -29,10 +42,15 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 ### Promoting to Production
 1. After testing in staging, manual approve to deploy to production
 
-
 # Monitoring Metrics and Thresholds
 
-## Infrastructure Metrics
+## Infrastructure Metrics Overview
+```mermaid
+pie title Infrastructure Metrics Distribution
+    "CPU Usage" : 33
+    "Memory Usage" : 33
+    "Disk Space" : 34
+```
 
 ### CPU Usage
 - **What**: Average CPU utilization across nodes
@@ -49,7 +67,17 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 - **Threshold**: Alert when > 85% full
 - **Importance**: Running out of disk space can crash nodes and corrupt data
 
-## Application Metrics
+## Application Metrics Overview
+```mermaid
+graph TD
+    A[Application Metrics] --> B[Response Time]
+    A --> C[Error Rate]
+    A --> D[Request Rate]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#fbb,stroke:#333,stroke-width:2px
+```
 
 ### Response Time
 - **What**: Average HTTP response time
@@ -67,6 +95,16 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 - **Importance**: Unusual traffic patterns may indicate issues or attacks
 
 ## Nginx-Specific Metrics
+```mermaid
+graph LR
+    A[Nginx Metrics] --> B[Active Connections]
+    A --> C[SSL Certificate]
+    A --> D[Worker Processes]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#fbb,stroke:#333,stroke-width:2px
+```
 
 ### Active Connections
 - **What**: Number of active connections to Nginx
