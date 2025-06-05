@@ -1,19 +1,36 @@
+# Minikube ArgoCD Local Development Environment
+
+A local development environment that sets up Minikube with ArgoCD for GitOps-based deployments. This project provides a complete local Kubernetes environment with automated deployment workflows using ArgoCD.
+
 # Table of Contents
-- [Install instructions](#install-instructions)
+- [Project Overview](#project-overview)
   - [Prerequisites](#prerequisites)
   - [Quick Start](#quick-start)
+  - [Project Structure](#project-structure)
+- [Deployment Workflow](#deployment-workflow)
   - [Deployment Flow](#deployment-flow)
   - [Deployments with ArgoCD](#deployments-with-argocd)
     - [Initial Deployment](#initial-deployment)
     - [Making Changes](#making-changes)
     - [Promoting to Production](#promoting-to-production)
-- [Monitoring Metrics and Thresholds](#monitoring-metrics-and-thresholds)
+- [Monitoring and Observability](#monitoring-and-observability)
   - [Infrastructure Metrics Overview](#infrastructure-metrics-overview)
   - [Application Metrics Overview](#application-metrics-overview)
   - [Nginx-Specific Metrics](#nginx-specific-metrics)
-- [Troubleshooting](#troubleshooting)
+- [Maintenance](#maintenance)
+  - [Cleanup Instructions](#cleanup-instructions)
+  - [Troubleshooting](#troubleshooting)
+  - [Known Issues and Limitations](#known-issues-and-limitations)
 
-# Install instructions
+# Project Overview
+
+This project sets up a local Kubernetes environment using Minikube and ArgoCD for GitOps-based deployments. It includes:
+
+- Local Kubernetes cluster using Minikube
+- ArgoCD for GitOps-based deployments
+- Terraform for infrastructure provisioning
+- Nginx example application with staging and production environments
+- Monitoring and observability setup
 
 ## Prerequisites
 - macOS (this setup is currently only working on macOS)
@@ -33,7 +50,17 @@ Run this single command to install and configure everything:
 ./install.sh
 ```
 
-# How to use ArgoCD for deployments, promotions, and rollbacks
+## Project Structure
+```
+.
+├── gitops/           # GitOps manifests for ArgoCD
+│   └── nginx/       # Nginx application manifests
+├── scripts/         # Utility scripts
+├── terraform/       # Infrastructure as Code
+└── install.sh       # Main installation script
+```
+
+# Deployment Workflow
 
 ## Deployment Flow
 ```mermaid
@@ -89,8 +116,8 @@ curl http://localhost:8082
 2. Monitor the promotion in ArgoCD UI
 3. Verify the changes in production environment
 
+# Monitoring and Observability
 
-# Monitoring Metrics and Thresholds
 ## Infrastructure Metrics Overview
 ```mermaid
 pie showData
@@ -178,10 +205,12 @@ graph LR
 - **Importance**: Too few workers impacts performance and availability
 - **How to Monitor**: Use Nginx status page or Prometheus
 
+# Maintenance
 
-# Cleanup instructions
+## Cleanup Instructions
 
-Run the following commands, assuming you want to delete minikube completely.
+To completely remove the local development environment, run:
+
 ```bash
 minikube stop
 minikube delete --all --purge
@@ -190,11 +219,11 @@ sudo rm -f /usr/local/bin/minikube
 rm -rf ~/.minikube
 ```
 
-# Troubleshooting
+## Troubleshooting
 
-## Common Issues
+### Common Issues
 
-### Installation Issues
+#### Installation Issues
 1. **Minikube fails to start**
    - Solution: Ensure Docker is running and has enough resources
    - Command: `minikube delete && minikube start --driver=docker`
@@ -207,7 +236,7 @@ rm -rf ~/.minikube
    - Solution: Check credentials and state
    - Command: `terraform init -reconfigure`
 
-### Deployment Issues
+#### Deployment Issues
 1. **Pods not starting**
    - Check pod status: `kubectl get pods -n <namespace>`
    - Check pod logs: `kubectl logs <pod-name> -n <namespace>`
@@ -220,9 +249,7 @@ rm -rf ~/.minikube
    - Check application status: `kubectl get applications -n argocd`
    - Check sync status: `kubectl get applicationsets -n argocd`
 
-
-
-# Known Issues and Limitations
+## Known Issues and Limitations
 - Installation script currently only works on macOS/arm64
 - Tools require manual installation on non-macOS systems
 - Installation script uses fixed sleep times instead of proper status checks
