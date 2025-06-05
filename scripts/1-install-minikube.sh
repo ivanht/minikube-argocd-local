@@ -4,11 +4,22 @@ function continue_or_exit() {
     read -p "Do you want to continue? (y/n): " CONTINUE
     if [ "$CONTINUE" != "y" ]; then
         echo "Exiting..."
+        sleep 10
         exit 1
     fi
 }
 
-echo "This script only works on macOS"
+function check_status_and_exit() {
+    if [ $? -ne 0 ]; then
+        echo "Error: $1"
+        echo "Exiting..."
+        echo "Please check the error message and try again."
+        sleep 10
+        exit 1
+    fi
+}
+
+echo "This script only works on macOS with docker installed"
 continue_or_exit
 
 # Check if running on macOS
@@ -16,6 +27,23 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
     echo "This script is only for macOS"
     exit 1
 fi
+# Check if Docker is installed and running
+echo "Checking if Docker is installed and running..."
+if ! command -v docker &> /dev/null; then
+    echo "Error: Docker is not installed"
+    echo "Please install Docker Desktop for Mac first"
+    exit 1
+fi
+
+# Check if Docker daemon is running
+if ! docker info &> /dev/null; then
+    echo "Error: Docker daemon is not running"
+    echo "Please start Docker Desktop and try again"
+    exit 1
+fi
+
+echo "Docker is installed and running"
+
 
 echo "Installing Homebrew... if not installed. If you don't type 'y', script will exit."
 continue_or_exit
@@ -31,35 +59,16 @@ fi
 echo "Installing Minikube and Hyperkit... If you don't type 'y', script will exit."
 continue_or_exit
 # Install hyperkit and minikube
-echo "Installing hyperkit and minikube..."
-brew install hyperkit 
+echo "Installing minikube..."
 brew install minikube 
+check_status_and_exit
 
 # Start minikube
 echo "Starting minikube..."
-minikube start --driver=hyperkit
-
+minikube start --driver=docker
+check_status_and_exit
 # Verify installation
 echo "Verifying minikube installation..."
 minikube status
+check_status_and_exit
 echo "Minikube installation complete!"
-
-# Install Helm
-echo "Installing Helm... If you don't type 'y', script will exit."
-continue_or_exit
-echo "Installing Helm..."
-brew install helm
-
-# Verify Helm installation
-echo "Verifying Helm installation..."
-helm version
-
-# Install kubectl
-echo "Installing kubectl... If you don't type 'y', script will exit."
-continue_or_exit
-echo "Installing kubectl..."
-brew install kubectl
-
-# Verify kubectl installation
-echo "Verifying kubectl installation..."
-kubectl version --client

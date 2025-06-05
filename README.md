@@ -1,17 +1,49 @@
+# Table of Contents
+- [Install instructions](#install-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Quick Start](#quick-start)
+- [How to use ArgoCD for deployments, promotions, and rollbacks](#how-to-use-argocd-for-deployments-promotions-and-rollbacks)
+  - [Deployment Flow](#deployment-flow)
+  - [Deployments with ArgoCD](#deployments-with-argocd)
+    - [Initial Deployment](#initial-deployment)
+    - [Making Changes](#making-changes)
+    - [Promoting to Production](#promoting-to-production)
+- [Monitoring Metrics and Thresholds](#monitoring-metrics-and-thresholds)
+  - [Infrastructure Metrics Overview](#infrastructure-metrics-overview)
+
+
 # Install instructions
 ## Prerequisites
-- macOS (this setup is currently only works on macOS)
+- macOS (this setup is currently only working on macOS)
+- Docker installed and running
 - Internet connection
 - GitHub account
+- Following binaries installed:
+   - terraform
+   - kubectl
+   - helm 
 
 ## Quick Start
 Run this single command to install and configure everything:
 
-```
+```bash
 ./install.sh
 ```
 
-#  How to use ArgoCD for deployments, promotions, and rollbacks.
+# How to use ArgoCD for deployments, promotions, and rollbacks
+
+## Deployment Flow
+```mermaid
+graph LR
+    A[Git Repository] -->|Changes| B[ArgoCD]
+    B -->|Auto Sync| C[Staging]
+    C -->|Manual Approval| D[Production]
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style B fill:#bbf,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style C fill:#fbb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style D fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+```
+
 ## Deployments with ArgoCD
 ArgoCD automatically syncs your Git repository with your Kubernetes clusters. Here's how to manage deployments:
 
@@ -29,10 +61,16 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 ### Promoting to Production
 1. After testing in staging, manual approve to deploy to production
 
-
 # Monitoring Metrics and Thresholds
 
-## Infrastructure Metrics
+## Infrastructure Metrics Overview
+```mermaid
+pie showData
+    title Infrastructure Metrics Distribution
+    "CPU Usage" : 33
+    "Memory Usage" : 33
+    "Disk Space" : 34
+```
 
 ### CPU Usage
 - **What**: Average CPU utilization across nodes
@@ -49,7 +87,17 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 - **Threshold**: Alert when > 85% full
 - **Importance**: Running out of disk space can crash nodes and corrupt data
 
-## Application Metrics
+## Application Metrics Overview
+```mermaid
+graph TD
+    A[Application Metrics] --> B[Response Time]
+    A --> C[Error Rate]
+    A --> D[Request Rate]
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style B fill:#bbf,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style C fill:#fbb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style D fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+```
 
 ### Response Time
 - **What**: Average HTTP response time
@@ -67,6 +115,16 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 - **Importance**: Unusual traffic patterns may indicate issues or attacks
 
 ## Nginx-Specific Metrics
+```mermaid
+graph LR
+    A[Nginx Metrics] --> B[Active Connections]
+    A --> C[SSL Certificate]
+    A --> D[Worker Processes]
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style B fill:#bbf,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style C fill:#fbb,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+    style D fill:#f9f,stroke:#333,stroke-width:2px,color:white,font-weight:bold
+```
 
 ### Active Connections
 - **What**: Number of active connections to Nginx
@@ -82,3 +140,10 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 - **What**: Number of worker processes
 - **Threshold**: Alert when < configured minimum workers
 - **Importance**: Too few workers impacts performance and availability
+
+
+# Issues:
+- In the time estimated 4h, I cannot make the `install.sh` script to works for all possible OS. Mine is MacOs on arm64. The installation script only works in darwin/arm64.
+- I have added some scripts to make sure all executable are installed on MacOS. It's not clear if the reproducer will have those tools.
+- I added quick sleeps in `install.sh`, this can be improved with loops to check status, if more than 4h are available.
+- Typical timeouts from golang, so ended up downloading helms locally. 

@@ -2,18 +2,24 @@
 
 echo "This script is for documentation purposes only."
 echo "The files have already been generated."
-echo "This script is for documentation purposes only."
 echo "If you want to run it, remove the next 2 lines."
 sleep 20
 exit 0
 
 # Create base directory structure
 mkdir -p gitops/nginx/
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm pull bitnami/nginx --version 20.0.5 --destination gitops/nginx/charts
+
+cd gitops/nginx/charts
+tar -xzf nginx-20.0.5.tgz
+rm -rf nginx-20.0.5.tgz
 
 # Create single Helm values file
-cat > gitops/nginx/values.yaml << 'EOF'
+cat > gitops/nginx/charts/values.yaml << 'EOF'
 service:
-  type: LoadBalancer
+  type: NodePort
 serverBlock: |-
   server {
     listen 0.0.0.0:8080;
@@ -36,14 +42,10 @@ spec:
   source:
     repoURL: https://github.com/ivanht/minikube-argocd-local.git
     targetRevision: HEAD
-    path: gitops/nginx
+    path: gitops/nginx/charts/
     helm:
       valueFiles:
         - values.yaml
-      version: "v3"
-    chart: nginx
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 20.0.5
   destination:
     server: https://kubernetes.default.svc
     namespace: external-staging
@@ -64,14 +66,10 @@ spec:
   source:
     repoURL: https://github.com/ivanht/minikube-argocd-local.git
     targetRevision: HEAD
-    path: gitops/nginx
+    path: gitops/nginx/charts/
     helm:
       valueFiles:
         - values.yaml
-      version: "v3"
-    chart: nginx
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 20.0.5
   destination:
     server: https://kubernetes.default.svc
     namespace: external-production
