@@ -1,0 +1,26 @@
+service:
+  type: NodePort
+
+serverBlock: |-
+  server {
+    listen 0.0.0.0:8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+    location / {
+      return 200 'hello it\'s me';
+      add_header Content-Type text/plain;
+    }
+  }
+
+existingServerBlockConfigmap: ""
+
+extraVolumes:
+  - name: server-block
+    configMap:
+      name: nginx-staging-server-block
+
+extraVolumeMounts:
+  - name: server-block
+    mountPath: /opt/bitnami/nginx/conf/server_blocks
+    subPath: server-block.conf 

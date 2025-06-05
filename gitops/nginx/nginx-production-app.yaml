@@ -11,7 +11,7 @@ spec:
     path: gitops/nginx/charts/
     helm:
       valueFiles:
-        - values.yaml
+        - custom-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: external-production

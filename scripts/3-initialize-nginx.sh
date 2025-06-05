@@ -19,9 +19,10 @@ mv nginx/* ./
 rm -rf nginx/
 
 # Create single Helm values file
-cat >> gitops/nginx/charts/values.yaml << 'EOF'
+cat >> gitops/nginx/charts/custom-values.yaml << 'EOF'
 service:
   type: NodePort
+
 serverBlock: |-
   server {
     listen 0.0.0.0:8080;
@@ -33,6 +34,18 @@ serverBlock: |-
       add_header Content-Type text/plain;
     }
   }
+
+existingServerBlockConfigmap: ""
+
+extraVolumes:
+  - name: server-block
+    configMap:
+      name: nginx-staging-server-block
+
+extraVolumeMounts:
+  - name: server-block
+    mountPath: /opt/bitnami/nginx/conf/server_blocks
+    subPath: server-block.conf 
 EOF
 
 # Create ArgoCD applications
@@ -50,7 +63,7 @@ spec:
     path: gitops/nginx/charts/
     helm:
       valueFiles:
-        - values.yaml
+        - custom-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: external-staging
@@ -74,7 +87,7 @@ spec:
     path: gitops/nginx/charts/
     helm:
       valueFiles:
-        - values.yaml
+        - custom-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: external-production
