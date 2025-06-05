@@ -15,9 +15,11 @@ helm pull bitnami/nginx --version 20.0.5 --destination gitops/nginx/charts
 cd gitops/nginx/charts
 tar -xzf nginx-20.0.5.tgz
 rm -rf nginx-20.0.5.tgz
+mv nginx/* ./
+rm -rf nginx/
 
 # Create single Helm values file
-cat > gitops/nginx/charts/values.yaml << 'EOF'
+cat >> gitops/nginx/charts/values.yaml << 'EOF'
 service:
   type: NodePort
 serverBlock: |-
