@@ -147,3 +147,4 @@ graph LR
 - I have added some scripts to make sure all executable are installed on MacOS. It's not clear if the reproducer will have those tools.
 - I added quick sleeps in `install.sh`, this can be improved with loops to check status, if more than 4h are available.
 - Typical timeouts from golang, so ended up downloading helms locally. 
+- It seems clear that ArgoCD workloads have to be deployed outside Terraform, so that's what I have done. However, it makes more sense to include them in Terraform.
