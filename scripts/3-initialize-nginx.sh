@@ -35,17 +35,6 @@ serverBlock: |-
     }
   }
 
-existingServerBlockConfigmap: ""
-
-extraVolumes:
-  - name: server-block
-    configMap:
-      name: nginx-staging-server-block
-
-extraVolumeMounts:
-  - name: server-block
-    mountPath: /opt/bitnami/nginx/conf/server_blocks
-    subPath: server-block.conf 
 EOF
 
 # Create ArgoCD applications
@@ -63,7 +52,7 @@ spec:
     path: gitops/nginx/charts/
     helm:
       valueFiles:
-        - custom-values.yaml
+        - ../custom-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: external-staging
@@ -87,7 +76,7 @@ spec:
     path: gitops/nginx/charts/
     helm:
       valueFiles:
-        - custom-values.yaml
+        - ../custom-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: external-production

@@ -12,15 +12,3 @@ serverBlock: |-
       add_header Content-Type text/plain;
     }
   }
-
-existingServerBlockConfigmap: ""
-
-extraVolumes:
-  - name: server-block
-    configMap:
-      name: nginx-staging-server-block
-
-extraVolumeMounts:
-  - name: server-block
-    mountPath: /opt/bitnami/nginx/conf/server_blocks
-    subPath: server-block.conf 
