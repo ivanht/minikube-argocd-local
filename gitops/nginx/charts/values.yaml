@@ -1,4 +1,3 @@
-
 # Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 
@@ -442,16 +441,10 @@ autoscaling:
   targetMemory: ""
 ## @param extraVolumes Array to add extra volumes
 ##
-extraVolumes:
-  - name: server-block
-    configMap:
-      name: nginx-staging-server-block
+extraVolumes: []
 ## @param extraVolumeMounts Array to add extra mount
 ##
-extraVolumeMounts:
-  - name: server-block
-    mountPath: /opt/bitnami/nginx/conf/server_blocks
-    subPath: server-block.conf
+extraVolumeMounts: []
 ## Pods Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 ##
