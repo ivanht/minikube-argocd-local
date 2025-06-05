@@ -25,6 +25,9 @@ service:
 serverBlock: |-
   server {
     listen 0.0.0.0:8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
     location / {
       return 200 'hello it\'s me';
       add_header Content-Type text/plain;
