@@ -84,14 +84,16 @@ ArgoCD automatically syncs your Git repository with your Kubernetes clusters. He
 
 ### Making Changes
 1. Modify the Helm values in `gitops/nginx/custom-values.yaml`
-2. Commit and push changes to Git
-3. ArgoCD will automatically detect and apply the changes to staging
-4. Monitor the deployment in the ArgoCD UI
+2. Commit and push changes to Git - trunk.
+3. ArgoCD will automatically detect and apply the changes to staging (checking in every 3mins)
+4. Monitor the deployment in the ArgoCD UI  (installation log will inform you about how to connect to ArgoCD)
 
 ### How to check changes
 Given that this k8s deployment is on NodePort, you would need to forward the port
 or do something similar in a different way.
+
 The standard way to test changes would be:
+
 #### Test in Stage
 Run this on one terminal:
 ```bash
@@ -102,7 +104,9 @@ Run a test on a second terminal:
 curl http://localhost:8081
 ```
 #### Test in Prod
-Run this on one terminal:
+Verify that changes were approved via ArgoCD UI.!!
+
+Then run this on one terminal:
 ```bash
 kubectl port-forward svc/nginx-production 8082:80 -n external-production
 ```
@@ -209,7 +213,7 @@ graph LR
 
 ## Cleanup Instructions
 
-To completely remove the local development environment, run:
+To completely remove the local development environment, run (careful!):
 
 ```bash
 minikube stop
@@ -250,9 +254,9 @@ rm -rf ~/.minikube
    - Check sync status: `kubectl get applicationsets -n argocd`
 
 ## Known Issues and Limitations
-- Installation script currently only works on macOS/arm64
-- Tools require manual installation on non-macOS systems
-- Installation script uses fixed sleep times instead of proper status checks
+- Installation script currently only works on macOS/arm64.
+- Tools require manual installation on non-macOS systems.
+- Installation script uses fixed sleep times instead of proper status checks.
 - ArgoCD workloads are deployed outside Terraform, as that was stated in the requirements. It makes sense to keep it in Terraform.
 - Limited amount of time (4h) to get this exercise completed.
 - Typical timeouts from golang, so ended up downloading helms locally.  
