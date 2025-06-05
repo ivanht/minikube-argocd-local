@@ -2,18 +2,20 @@
 
 echo "This script is for documentation purposes only."
 echo "The files have already been generated."
-echo "This script is for documentation purposes only."
 echo "If you want to run it, remove the next 2 lines."
 sleep 20
 exit 0
 
 # Create base directory structure
 mkdir -p gitops/nginx/
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm pull bitnami/nginx --version 20.0.5 --destination gitops/nginx/charts
 
 # Create single Helm values file
 cat > gitops/nginx/values.yaml << 'EOF'
 service:
-  type: LoadBalancer
+  type: NodePort
 serverBlock: |-
   server {
     listen 0.0.0.0:8080;
@@ -40,10 +42,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      version: "v3"
-    chart: nginx
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 20.0.5
+      chart: ./charts/nginx-20.0.5.tgz
   destination:
     server: https://kubernetes.default.svc
     namespace: external-staging
@@ -68,10 +67,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      version: "v3"
-    chart: nginx
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 20.0.5
+      chart: ./charts/nginx-20.0.5.tgz
   destination:
     server: https://kubernetes.default.svc
     namespace: external-production

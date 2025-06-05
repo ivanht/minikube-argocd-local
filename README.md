@@ -15,8 +15,13 @@
 # Install instructions
 ## Prerequisites
 - macOS (this setup is currently only working on macOS)
+- Docker installed and running
 - Internet connection
 - GitHub account
+- Following binaries installed:
+   - terraform
+   - kubectl
+   - helm 
 
 ## Quick Start
 Run this single command to install and configure everything:
@@ -135,3 +140,10 @@ graph LR
 - **What**: Number of worker processes
 - **Threshold**: Alert when < configured minimum workers
 - **Importance**: Too few workers impacts performance and availability
+
+
+# Issues:
+- In the time estimated 4h, I cannot make the `install.sh` script to works for all possible OS. Mine is MacOs on arm64. The installation script only works in darwin/arm64.
+- I have added some scripts to make sure all executable are installed on MacOS. It's not clear if the reproducer will have those tools.
+- I added quick sleeps in `install.sh`, this can be improved with loops to check status, if more than 4h are available.
+- Typical timeouts from golang, so ended up downloading helms locally. 
