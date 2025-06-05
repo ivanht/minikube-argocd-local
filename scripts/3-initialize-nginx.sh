@@ -12,8 +12,12 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 helm pull bitnami/nginx --version 20.0.5 --destination gitops/nginx/charts
 
+cd gitops/nginx/charts
+tar -xzf nginx-20.0.5.tgz
+rm -rf nginx-20.0.5.tgz
+
 # Create single Helm values file
-cat > gitops/nginx/values.yaml << 'EOF'
+cat > gitops/nginx/charts/values.yaml << 'EOF'
 service:
   type: NodePort
 serverBlock: |-
@@ -38,11 +42,10 @@ spec:
   source:
     repoURL: https://github.com/ivanht/minikube-argocd-local.git
     targetRevision: HEAD
-    path: gitops/nginx
+    path: gitops/nginx/charts/
     helm:
       valueFiles:
         - values.yaml
-      chart: ./charts/nginx-20.0.5.tgz
   destination:
     server: https://kubernetes.default.svc
     namespace: external-staging
@@ -63,11 +66,10 @@ spec:
   source:
     repoURL: https://github.com/ivanht/minikube-argocd-local.git
     targetRevision: HEAD
-    path: gitops/nginx
+    path: gitops/nginx/charts/
     helm:
       valueFiles:
         - values.yaml
-      chart: ./charts/nginx-20.0.5.tgz
   destination:
     server: https://kubernetes.default.svc
     namespace: external-production

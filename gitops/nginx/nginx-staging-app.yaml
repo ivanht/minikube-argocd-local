@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/ivanht/minikube-argocd-local.git
-    targetRevision: feat/changes2
+    targetRevision: HEAD
     path: gitops/nginx/charts/
     helm:
       valueFiles:
