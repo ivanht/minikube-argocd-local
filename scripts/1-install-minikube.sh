@@ -56,22 +56,29 @@ else
     echo "Homebrew is already installed"
 fi
 
-echo "Installing Minikube and Hyperkit... If you don't type 'y', script will exit."
+echo "Installing Minikube ... If you don't type 'y', script will exit."
 continue_or_exit
 # Install hyperkit and minikube
 echo "Installing minikube..."
-brew install minikube 
-check_status_and_exit
+if ! command -v minikube &> /dev/null; then
+    brew install minikube
+    check_status_and_exit
+else
+    echo "Minikube is already installed"
+fi
 
 # Start minikube
 echo "Starting minikube..."
-minikube start --driver=docker
-check_status_and_exit
+if minikube status | grep -q "Running"; then
+    echo "Minikube is already running"
+else
+    minikube start --driver=docker
+    check_status_and_exit
+fi
 # Verify installation
 echo "Verifying minikube installation..."
 minikube status
 check_status_and_exit
 echo "Minikube installation complete!"
-minikube tunnel
-check_status_and_exit
+minikube tunnel &
 echo "Minikube tunnel running!"

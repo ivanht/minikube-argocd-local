@@ -2,8 +2,8 @@
 
 echo "This script is for documentation purposes only."
 echo "The files have already been generated."
-echo "If you want to run it, remove the next 2 lines."
-sleep 20
+echo "If you want to run it, remove the next 2 lines in the script."
+sleep 10
 exit 0
 
 # Create base directory structure

@@ -32,10 +32,13 @@ cd ..
 echo "Terraform setup complete!"
 
 # let's enable port forwarding for argocd
-kubectl port-forward svc/argocd-server 8080:80 -n argocd
+echo "Enabling port forwarding for ArgoCD..."
+echo "Run on a new terminal: $ kubectl port-forward svc/argocd-server 8080:80 -n argocd"
 
 echo "--------------------------------"
-echo "You can now access ArgoCD at https://localhost:8080"
+echo "Once above command executed, you can access ArgoCD at https://localhost:8080"
 echo "Username: admin"
 echo "Password: $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
 echo "--------------------------------"
+
+sleep 10
