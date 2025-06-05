@@ -72,3 +72,6 @@ echo "Verifying minikube installation..."
 minikube status
 check_status_and_exit
 echo "Minikube installation complete!"
+minikube tunnel
+check_status_and_exit
+echo "Minikube tunnel running!"
