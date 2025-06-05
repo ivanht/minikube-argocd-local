@@ -8,7 +8,7 @@ serverBlock: |-
     root /usr/share/nginx/html;
     index index.html;
     location / {
-      return 200 'hello it\'s me again';
+      return 200 'hello it\'s me';
       add_header Content-Type text/plain;
     }
   }
