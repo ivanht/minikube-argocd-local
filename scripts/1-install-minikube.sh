@@ -82,3 +82,5 @@ check_status_and_exit
 echo "Minikube installation complete!"
 minikube tunnel &
 echo "Minikube tunnel running!"
+minikube addons enable metrics-server
+echo "Metrics server enabled!"
